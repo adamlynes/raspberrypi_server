@@ -1,0 +1,70 @@
+version: '3.7'
+
+volumes:
+  readsbpb_rrd:
+  readsbpb_autogain:
+  tar1090_heatmap:
+
+services:
+  readsb:
+    image: ghcr.io/sdr-enthusiasts/docker-readsb-protobuf:latest
+    tty: true
+    container_name: readsb
+    hostname: readsb
+    restart: always
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    ports:
+      - 8080:8080
+    environment:
+      - TZ=${FEEDER_TZ}
+      - READSB_DEVICE_TYPE=rtlsdr
+      - READSB_RTLSDR_DEVICE=1090
+      - READSB_GAIN=autogain
+      - READSB_LAT=${FEEDER_LAT}
+      - READSB_LON=${FEEDER_LONG}
+      - READSB_RX_LOCATION_ACCURACY=2
+      - READSB_STATS_RANGE=true
+      - READSB_NET_ENABLE=true
+    volumes:
+      - readsbpb_rrd:/run/collectd
+      - readsbpb_autogain:/run/autogain
+    tmpfs:
+      - /run/readsb
+      - /var/log
+  fr24:
+    image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest
+    tty: true
+    container_name: fr24
+    restart: always
+    depends_on:
+      - readsb
+    ports:
+      - 8754:8754
+    environment:
+      - BEASTHOST=readsb
+      - TZ=${FEEDER_TZ}
+      - FR24KEY=${FR24_SHARING_KEY}
+    tmpfs:
+      - /var/log
+  tar1090:
+    image: ghcr.io/sdr-enthusiasts/docker-tar1090:latest
+    tty: true
+    container_name: tar1090
+    restart: always
+    environment:
+      - UPDATE_TAR1090=false
+      - TZ=${FEEDER_TZ}
+      - BEASTHOST=readsb
+      - LAT=${FEEDER_LAT}
+      - LONG=${FEEDER_LONG}
+      - TAR1090_DEFAULTCENTERLAT=${FEEDER_LAT}
+      - TAR1090_DEFAULTCENTERLON=${FEEDER_LONG}
+      - MLATHOST=adsbx
+    ports:
+      - 8082:80
+    volumes:
+      - "tar1090_heatmap:/var/globe_history"
+    tmpfs:
+      - /run:exec,size=64M
+      - /var/log
