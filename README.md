@@ -12,13 +12,13 @@ To flash the image I use the official Rapsberry Pi Imager software and I use the
 I then set the imager on its way and wait for it to finish flashing the image before inserting it into my Pi and powering it up.
 
 <h3>Connecting to the Pi</h3>
-If this is the first time I've used this Pi I need to find out it's IP address before I'm able to SSH into it. There a couple of ways to do this but a quick universal way that will work for most people is to download an IP scanning application (Advanced IP scanner on Windows or Angry IP scanner on MacOS) - run the scan and you'll see the hostname of your Pi pop up somewhere on the list. At this stage it's also a good idea to reserve that IP on your network for this device so that it remains constant. On most routers or network management applications you can do this by logging into the web page, finding your Pi in the list of clients and choosing the option to use the fixed IP address. You may also be able to change the IP address to one of your choosing as well.
+If this is the first time I've used this Pi I need to find out it's IP address before I'm able to SSH into it. There a couple of ways to do this but a quick universal way that will work for most people is to download an IP scanning application (Advanced IP scanner on Windows or Angry IP scanner on MacOS) - run the scan and you'll see the hostname of your Pi pop up somewhere on the list. 
 
-You can now use your client of choice to SSH into the Pi - I usually just use Terminal on Windows or MacOs but there are loads of options out there - and run the command <code>ssh username@192.168.0.0</code> replacing the username and IP address with the values that you have set.
+At this stage it's also a good idea to reserve that IP on your network for this device so that it remains constant. On most routers or network management applications you can do this by logging into the web page, finding your Pi in the list of clients and choosing the option to use the fixed IP address. You may also be able to change the IP address to one of your choosing as well.
+
+You can now use your client of choice to SSH into the Pi - I usually just use Terminal on Windows or MacOs but there are loads of options out there - and run the command <code>ssh username@192.168.0.0</code> replacing the username and IP address with the values that you have set. Once logged in it's time to start with the install of the applications.
 
 <h2>Overview of Applications</h2>
-
-This sections provides an overview of what is installed on my server, a later section details installation instructions for each.
 
 <h3>Applications installed to the base System</h3>
 
@@ -41,4 +41,6 @@ This sections provides an overview of what is installed on my server, a later se
 <h3>Other setup</h3>
 
 <ul><li>Update Script and Cron</li></ul>
+
+
 
