@@ -42,5 +42,57 @@ You can now use your client of choice to SSH into the Pi - I usually just use Te
 
 <ul><li>Update Script and Cron</li></ul>
 
+<h2>Installing Applications</h2>
+<h3>Samba Share</h3>
+This creates a network share that I can access from my computer. Useful for updating files and scripts and via a GUI rather than navigating via CLI.
+
+<ol>
+<li>Update the package list and all packages first
+<code>sudo apt-get update
+sudo apt-get upgrade</code></li<
+
+<li>Install Samba
+<code>sudo apt-get install samba samba-common-bin</code></li>
+
+<li>I always the use existing "Opt" directory for application files but if you want to create a new directory for sharing then use this command
+<code>mkdir /home/pi/shared</code></li>
+
+<li>You now need to edit the "smb.conf" file which stores the settings for the shares.
+<code>sudo nano /etc/samba/smb.conf</code>
+
+Use your keyboard arrows to naivate to the bottom of the file and add
+
+<code>[pi_opt]
+path = /opt
+writeable=Yes
+create mask=0777
+directory mask=0777
+public=no</code>
+
+"[pi_opt]" is the share and you can call this what you prefer, remeber that this is how you will access your share eg <code>//raspberrypi/pi_opt</code>
+
+"path" - chose the directory you want to share
+
+"writeable" - allows the folder to be writeable
+
+"create mask" and "directory mask" - allows maximum permissions for the files and folders - read, write and execute for permissioned users.
+
+"public" - set to "no" to ensure that only a valid user is granted access to the share.</li>
+
+<li>Use CTRL+X, then Y and then Enter to save and exit the file and return to the command line.</li>
+
+<li>Next we need to set up a user that can use the share. I usually use the same username and password I set for the pi, just to keep things simple.
+
+<code>sudo smbpasswd -a pi</code></li> and it will ask you to enter the password twice to set it.
+
+<li>Now to restart the Samba service before we connect
+
+<code> sudo systemctl restart smbd</code></li>
+
+<li>You can now connect to your network share from any device.</li>>
+
+
+
+
 
 
