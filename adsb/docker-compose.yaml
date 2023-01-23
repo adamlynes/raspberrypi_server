@@ -1,11 +1,62 @@
 version: '3.7'
 
-volumes:
-  readsbpb_rrd:
-  readsbpb_autogain:
-  tar1090_heatmap:
-
 services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce
+    restart: always
+    ports:
+      - "9000:9000/tcp"
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/portainer:/data
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:2022.11.3"
+    volumes:
+      - /opt/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+  # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+  pihole:
+    container_name: pihole
+    image: jacklul/pihole:latest
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      #- "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
+      - "8008:80/tcp"
+    environment:
+      TZ: 'Europe/London'
+    # Volumes store your data between container upgrades
+    volumes:
+      - '/opt/etc-pihole:/etc/pihole'
+      - '/opt/etc-dnsmasq.d:/etc/dnsmasq.d'
+      - '/opt/etc-pihole-updatelists/:/etc/pihole-updatelists/'
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    cap_add:
+      - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
+    restart: unless-stopped
+  fr24feed:
+    image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest
+    tty: true
+    container_name: fr24feed
+    restart: always
+    depends_on:
+      - readsb
+    ports:
+      - 8754:8754
+    environment:
+      - BEASTHOST=readsb
+      - TZ=GB
+      - FR24KEY=35e32b01f978e29c
+    tmpfs:
+      - /var/log
   readsb:
     image: ghcr.io/sdr-enthusiasts/docker-readsb-protobuf:latest
     tty: true
@@ -17,12 +68,12 @@ services:
     ports:
       - 8080:8080
     environment:
-      - TZ=${FEEDER_TZ}
+      - TZ=GB
       - READSB_DEVICE_TYPE=rtlsdr
       - READSB_RTLSDR_DEVICE=1090
       - READSB_GAIN=autogain
-      - READSB_LAT=${FEEDER_LAT}
-      - READSB_LON=${FEEDER_LONG}
+      - READSB_LAT=51.485200
+      - READSB_LON=0.021740
       - READSB_RX_LOCATION_ACCURACY=2
       - READSB_STATS_RANGE=true
       - READSB_NET_ENABLE=true
@@ -31,40 +82,7 @@ services:
       - readsbpb_autogain:/run/autogain
     tmpfs:
       - /run/readsb
-      - /var/log
-  fr24:
-    image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest
-    tty: true
-    container_name: fr24
-    restart: always
-    depends_on:
-      - readsb
-    ports:
-      - 8754:8754
-    environment:
-      - BEASTHOST=readsb
-      - TZ=${FEEDER_TZ}
-      - FR24KEY=${FR24_SHARING_KEY}
-    tmpfs:
-      - /var/log
-  tar1090:
-    image: ghcr.io/sdr-enthusiasts/docker-tar1090:latest
-    tty: true
-    container_name: tar1090
-    restart: always
-    environment:
-      - UPDATE_TAR1090=false
-      - TZ=${FEEDER_TZ}
-      - BEASTHOST=readsb
-      - LAT=${FEEDER_LAT}
-      - LONG=${FEEDER_LONG}
-      - TAR1090_DEFAULTCENTERLAT=${FEEDER_LAT}
-      - TAR1090_DEFAULTCENTERLON=${FEEDER_LONG}
-      - MLATHOST=adsbx
-    ports:
-      - 8082:80
-    volumes:
-      - "tar1090_heatmap:/var/globe_history"
-    tmpfs:
-      - /run:exec,size=64M
-      - /var/log
+      - /var/log  
+
+#command to run docker-compose update "docker-compose up -d"
+#to take ownership of opt dir sudo chown adamlynes -R /opt      

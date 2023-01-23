@@ -103,7 +103,7 @@ I use Docker Compose to deploy my application images to my Pi. Rather than havin
 First of all make sure that the system runs the latest version of the software.
 Run the command:
 
-sudo apt-get update && sudo apt-get upgrade
+<code>sudo apt-get update && sudo apt-get upgrade</code>
 </li>
 <li>Install Docker
 
