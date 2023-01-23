@@ -40,12 +40,15 @@ You can now use your client of choice to SSH into the Pi - I usually just use Te
 
 <h3>Other setup</h3>
 
-<ul><li>Update Script and Cron</li></ul>
+<ul>
+<li>Update Script and Cron</li>
+<li>SSH Keys of Other Devices</li>
+</ul>
 
 <h2>Installing Applications</h2>
 <h3>Samba Share</h3>
-This creates a network share that I can access from my computer. Useful for updating files and scripts and via a GUI rather than navigating via CLI.
-
+This creates a network share that I can access from my computer. Useful for updating files and scripts via a GUI rather than navigating via CLI. I usually open files via VS Code and edit them there.
+<br>
 <ol>
 <li>Update the package list and all packages first
 <code>sudo apt-get update
@@ -89,7 +92,66 @@ public=no</code>
 
 <code> sudo systemctl restart smbd</code></li>
 
-<li>You can now connect to your network share from any device.</li>>
+<li>You can now connect to your network share from any device.</li>
+
+<h3>Docker & Docker Compose</h3>
+I use Docker Compose to deploy my application images to my Pi. Rather than having a Pi flashed with just one image, this allows me to have multiple images in separate containers on my Pi.
+
+<ol>
+<li>Update and Upgrade
+
+First of all make sure that the system runs the latest version of the software.
+Run the command:
+
+sudo apt-get update && sudo apt-get upgrade
+</li>
+<li>Install Docker
+
+Now is time to install Docker! Fortunately, Docker provides a handy install script for that, just run:
+
+<code>curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh</code>
+</li>
+<li>Add a Non-Root User to the Docker Group
+
+By default, only users who have administrative privileges (root users) can run containers. If you are not logged in as the root, one option is to use the sudo prefix.
+However, you could also add your non-root user to the Docker group which will allow it to execute docker commands.
+
+The syntax for adding users to the Docker group is:
+
+<code>sudo usermod -aG docker [user_name]</code>
+
+To add the permissions to the current user run:
+
+<code>sudo usermod -aG docker ${USER}</code>
+
+Check it running:
+
+<code>groups ${USER}</code>
+</li>
+<li>Install Docker-Compose
+
+Docker-Compose usually gets installed using pip3. For that, we need to have python3 and pip3 installed. If you don't have it installed, you can run the following commands:
+
+<code>sudo apt install docker-compose</code>
+</li>
+<li>Enable the Docker system service to start your containers on boot
+
+This is a very nice and important addition. With the following command you can configure your Raspberry Pi to automatically run the yDocker system service, whenever it boots up.
+
+<code>sudo systemctl enable docker<code>
+
+With this in place, containers with a restart policy set to always or unless-stopped will be re-started automatically after a reboot.
+</li>
+<li>Run Hello World Container
+
+The best way to test whether Docker has been set up correctly is to run the Hello World container.
+To do so, type in the following command:
+
+<code>docker run hello-world</code>
+
+Once it goes through all the steps, the output should inform you that your installation appears to be working correctly.
+</li>
+</ol>
 
 
 
