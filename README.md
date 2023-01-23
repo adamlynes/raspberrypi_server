@@ -93,7 +93,7 @@ public=no</code>
 <code> sudo systemctl restart smbd</code></li>
 
 <li>You can now connect to your network share from any device.</li>
-
+</ol>
 <h3>Docker & Docker Compose</h3>
 I use Docker Compose to deploy my application images to my Pi. Rather than having a Pi flashed with just one image, this allows me to have multiple images in separate containers on my Pi.
 
@@ -138,7 +138,7 @@ Docker-Compose usually gets installed using pip3. For that, we need to have pyth
 
 This is a very nice and important addition. With the following command you can configure your Raspberry Pi to automatically run the yDocker system service, whenever it boots up.
 
-<code>sudo systemctl enable docker<code>
+<code>sudo systemctl enable docker</code>
 
 With this in place, containers with a restart policy set to always or unless-stopped will be re-started automatically after a reboot.
 </li>
