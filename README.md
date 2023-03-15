@@ -53,7 +53,7 @@ This creates a network share that I can access from my computer. Useful for upda
 <ol>
 <li>Update the package list and all packages first
 <code>sudo apt-get update
-sudo apt-get upgrade</code></li<
+sudo apt-get upgrade</code></li>
 
 <li>Install Samba
 <code>sudo apt-get install samba samba-common-bin</code></li>
@@ -169,11 +169,10 @@ Once it goes through all the steps, the output should inform you that your insta
 <h2>Other Tools</h2>
 Here is a list of of tools that I use to manage my server and it's applications. Some of them are just details on the web front ends of the installed apps, whilst some of them are stand alone apps that and connect to the server and surface the data in a much more digestible way.
 
-- [[Pi-Hole Remote]]
-- [[Server Cat]]
-- [[Home Assistant App]]
-- [[Portainer]]
-
+- Pi-Hole Remote
+- Server Cat
+- Home Assistant App
+- Portainer
 
 
 
