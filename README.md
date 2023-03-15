@@ -43,6 +43,7 @@ You can now use your client of choice to SSH into the Pi - I usually just use Te
 <ul>
 <li>Update Script and Cron</li>
 <li>SSH Keys of Other Devices</li>
+<li>Other Tools</li>
 </ul>
 
 <h2>Installing Applications</h2>
@@ -153,15 +154,27 @@ Once it goes through all the steps, the output should inform you that your insta
 </li>
 </ol>
 
-<h3>docker-compose.yaml</h3>
+<h2>docker-compose.yaml</h2>
 
-Now that Docker is up and running we can start to populate our docker-compose.yaml file. This is the file that tells Docker what containers to install and what parameters we would like to set for them. My docker-compose.yaml is available for you to reference in the "opt" folder, so named as it's the folder that I use on my Rasperry Pi system for keeping all my containers in.
+<p>Now that Docker is up and running we can start to populate our docker-compose.yaml file. This is the file that tells Docker what containers to install and what parameters we would like to set for them. My docker-compose.yaml is available for you to reference in the "opt" folder, so named as it's the folder that I use on my Rasperry Pi system for keeping all my containers in.</p>
 
-The following sections will run through what services I have defined in my docker-compose.yaml file and explain a bit about what they are, how I use them and my experience of installing them.
+<p>The following sections will run through what services I have defined in my docker-compose.yaml file and explain a bit about what they are, how I use them and my experience of installing them.</p>
 
 <h3>Pi-Hole</h3>
-<p>I use Pi-Hole primarily to block ads across all devices on my network. If you're used to using an ad blocker extension on your browser then this does the same thing across all your devices and all applications. For example when I'm reading my favourite newspaper app on my iPhone I can now scroll through without being inundated with ads. It will block ad trackers and other services that mine your web usage for your data.</p><br><br>
+<a href='https://hub.docker.com/r/pihole/pihole'>Office Docker Pi-Hole Page</a>
+
+<p>I use Pi-Hole primarily to block ads across all devices on my network. If you're used to using an ad blocker extension on your browser then this does the same thing across all your devices and all applications. For example when I'm reading my favourite newspaper app on my iPhone I can now scroll through without being inundated with ads. It will block ad trackers and other services that mine your web usage for your data.</p>
 <p>It's also useful as a web filter for your home network, you can use an app such as Pi-Hole remote that gives you toggles for blocking popular services like Facebook and Youtube or you can manually configure the domains you want to block on the User interface.</p>
+
+<h2>Other Tools</h2>
+Here is a list of of tools that I use to manage my server and it's applications. Some of them are just details on the web front ends of the installed apps, whilst some of them are stand alone apps that and connect to the server and surface the data in a much more digestible way.
+
+- [[Pi-Hole Remote]]
+- [[Server Cat]]
+- [[Home Assistant App]]
+- [[Portainer]]
+
+
 
 
 
