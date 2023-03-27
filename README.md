@@ -56,7 +56,7 @@ This creates a network share that I can access from my computer. Useful for upda
 sudo apt-get upgrade</code></li>
 
 <li>Install Samba
-<code>sudo apt-get install samba samba-common-bin</code></li>
+<code>sudo apt-install samba-common-bin</code></li>
 
 <li>I always the use existing "Opt" directory for application files but if you want to create a new directory for sharing then use this command
 <code>mkdir /home/pi/shared</code></li>
