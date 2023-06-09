@@ -96,7 +96,7 @@ public=no</code>
 <li>You can now connect to your network share from any device.</li>
 </ol>
 <h3>Docker & Docker Compose</h3>
-I use Docker Compose to deploy my application images to my Pi. Rather than having a Pi flashed with just one image, this allows me to have multiple images in separate containers on my Pi.
+I use Docker Compose to deploy application images to my Pi. Rather than having a Pi flashed with just one image, this allows me to have multiple images in separate containers on my Pi.
 
 <ol>
 <li>Update and Upgrade
